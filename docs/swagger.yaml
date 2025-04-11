@@ -1,0 +1,24 @@
+basePath: /
+host: localhost:3000
+info:
+  contact:
+    email: imon@ikr.one
+    name: API Support
+  description: OSARK API to write and read data to the database
+  title: OSARK API
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: Ping the server to check if it is running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: pong
+          schema:
+            type: string
+      summary: Ping the server
+swagger: "2.0"

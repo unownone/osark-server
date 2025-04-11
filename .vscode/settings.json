@@ -1,0 +1,8 @@
+{
+    "workbench.colorCustomizations": {
+        "editorInlayHint.foreground": "#eec2ff5c",
+        "activityBar.background": "#123044",
+        "titleBar.activeBackground": "#194360",
+        "titleBar.activeForeground": "#F7FBFD"
+    }
+}
