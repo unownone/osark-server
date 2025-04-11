@@ -17,7 +17,7 @@ import (
 // @host localhost:3000
 // @BasePath /
 func main() {
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("../../.env"); err != nil {
 		fmt.Println("Failed to load .env file: %w", err)
 		os.Exit(1)
 	}

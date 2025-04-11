@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/unownone/osark-server/internal/config"
 	"github.com/unownone/osark-server/internal/repository"
+	"github.com/unownone/osark-server/internal/service"
 	"gorm.io/gorm"
 )
 
@@ -16,10 +17,13 @@ type Handler interface {
 type handler struct {
 	config            *config.Config
 	db                *gorm.DB
-	sysInfoRepository repository.SysInfoRepository
+	eventService      service.Event
 }
 
+// NewHandler creates a new handler
 func NewHandler(config *config.Config, db *gorm.DB) Handler {
-	sysInfoRepository := repository.NewSysInfoRepository(db, 100)
-	return &handler{config: config, db: db, sysInfoRepository: sysInfoRepository}
+	sysRepository := repository.NewSysInfoRepository(db, 100)
+	appRepository := repository.NewAppRepository(db, 100)
+	eventService := service.NewEventService(sysRepository, appRepository)
+	return &handler{config: config, db: db, eventService: eventService}
 }

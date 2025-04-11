@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	dbConfig *DBConfig
-	port     string `env:"PORT"`
+	PORT     string `env:"PORT"`
 }
 
 type DBConfig struct {
@@ -48,5 +48,5 @@ func (c *Config) GetDBConfig() *DBConfig {
 
 // GetPort returns the PORT
 func (c *Config) GetPort() string {
-	return c.port
+	return c.PORT
 }

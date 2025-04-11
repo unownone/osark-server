@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
@@ -9,6 +10,7 @@ import (
 func (h *handler) NewServer() (*fiber.App, error) {
 	app := fiber.New()
 	app.Use(requestid.New())
+	app.Use(logger.New())
 	h.setRoutes(app) // set routes
 	return app, nil
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/unownone/osark-server/internal/config"
+	"github.com/unownone/osark-server/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -16,5 +17,18 @@ func initDB(dbConfig *config.DBConfig) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	// TODO: improve this , automigrate is not a good idea in production
+	if err := migrate(db); err != nil {
+		return nil, err
+	}
 	return db, nil
+}
+
+// migrate migrates the database
+func migrate(db *gorm.DB) error {
+	return db.AutoMigrate(
+		&models.AppInfo{},
+		&models.ProcessInfo{},
+		&models.SystemInfo{},
+	)
 }
