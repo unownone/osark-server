@@ -1,7 +1,7 @@
 package server
 
 import (
-	"fmt"
+	"log/slog"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/unownone/osark-server/internal/models"
@@ -28,7 +28,7 @@ func (h *handler) CaptureEvents(c *fiber.Ctx) error {
 
 	go func() {
 		if err := h.eventService.Handle(c.Context(), events, identifier); err != nil {
-			fmt.Println("Error capturing events:", err)
+			slog.Error("Error capturing events", "error", err)
 		}
 	}()
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -17,24 +18,30 @@ import (
 // @host localhost:3000
 // @BasePath /
 func main() {
+	// Setup structured logging
+	logHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	})
+	logger := slog.New(logHandler)
+	slog.SetDefault(logger)
+
 	if err := godotenv.Load("../../.env"); err != nil {
-		fmt.Println("Failed to load .env file: %w", err)
-		os.Exit(1)
+		slog.Info("No .env file found, using system env")
 	}
 	cfg, err := config.NewConfig()
 	if err != nil {
-		fmt.Println("Failed to create config: %w", err)
+		slog.Error("Failed to create config", "error", err)
 		os.Exit(1)
 	}
 	db, err := initDB(cfg.GetDBConfig())
 	if err != nil {
-		fmt.Println("Failed to initialize database: %w", err)
+		slog.Error("Failed to initialize database", "error", err)
 		os.Exit(1)
 	}
 	handler := server.NewHandler(cfg, db)
 
 	if err := runServer(&handler); err != nil {
-		fmt.Println("Failed to run server: %w", err)
+		slog.Error("Failed to run server", "error", err)
 		os.Exit(1)
 	}
 }
@@ -45,5 +52,9 @@ func runServer(handler *server.Handler) error {
 	if err != nil {
 		return fmt.Errorf("failed to create server: %w", err)
 	}
+	
+	// Log server start
+	slog.Info("Starting server", "port", (*handler).GetConfig().GetPort())
+	
 	return (*handler).ListenAndServe(server)
 }

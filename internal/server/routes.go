@@ -1,6 +1,8 @@
 package server
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+)
 
 func (h *handler) setRoutes(route *fiber.App) {
 	route.Get("/ping", ping)
@@ -26,8 +28,4 @@ func (h *handler) setRoutes(route *fiber.App) {
 // @Router /ping [get]
 func ping(c *fiber.Ctx) error {
 	return c.SendString("pong")
-}
-
-func (h *handler) frontend(route *fiber.Router) {
-
 }

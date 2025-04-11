@@ -13,6 +13,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/api ./cmd/api
 FROM scratch AS prod
 
 COPY --from=builder /bin/api /bin/api
+COPY --from=builder /app/views /bin/views
+
+ENV VIEW_PATH="/bin/views"
 
 ENTRYPOINT ["/bin/api"]
 

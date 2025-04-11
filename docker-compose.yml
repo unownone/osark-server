@@ -5,13 +5,13 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "3000:3000"
     volumes:
       - .:/app
     env_file:
-      - .env.example
+      - .env
     environment:
-      - PORT=8080
+      - PORT=3000
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=postgres

@@ -9,6 +9,7 @@ import (
 type Config struct {
 	dbConfig *DBConfig
 	PORT     string `env:"PORT"`
+	VIEW_PATH string `env:"VIEW_PATH" envDefault:"../../views"`
 }
 
 type DBConfig struct {
@@ -49,4 +50,9 @@ func (c *Config) GetDBConfig() *DBConfig {
 // GetPort returns the PORT
 func (c *Config) GetPort() string {
 	return c.PORT
+}
+
+// GetViewPath returns the VIEW_PATH
+func (c *Config) GetViewPath() string {
+	return c.VIEW_PATH
 }

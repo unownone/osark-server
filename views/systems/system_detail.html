@@ -1,0 +1,123 @@
+{{define "system_detail"}}
+<div class="container-fluid py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col-lg-8 col-md-7">
+            <h1 class="fw-bold text-primary">System Details</h1>
+            <p class="lead text-secondary mb-0">System ID: {{.System.ID}}</p>
+        </div>
+        <div class="col-lg-4 col-md-5 mt-3 mt-md-0 text-md-end">
+            <a href="/" class="btn btn-outline-secondary me-2">
+                <i class="bi bi-arrow-left"></i> Back to Systems
+            </a>
+            <a href="/systems/{{.System.ID}}/apps" class="btn btn-primary">
+                <i class="bi bi-grid"></i> View Apps
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-sm mb-4 border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-pc-display"></i> System Information
+                    </h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th class="bg-light text-primary" style="width: 40%">ID</th>
+                                            <td class="fw-medium">{{.System.ID}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-primary">Operating System</th>
+                                            <td class="fw-medium">{{.System.OSName}} {{.System.OSVersion}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-primary">OS Architecture</th>
+                                            <td class="fw-medium">{{.System.OSArch}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-primary">OSQuery Version</th>
+                                            <td class="fw-medium">{{.System.OSQueryVersion}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-primary">MAC Address</th>
+                                            <td class="fw-medium">{{.System.MacAddress}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th class="bg-light text-primary" style="width: 40%">Uptime</th>
+                                            <td class="fw-medium">{{if .System.UptimeSeconds}}{{.System.UptimeSeconds}}
+                                                seconds{{else}}N/A{{end}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-primary">First Seen</th>
+                                            <td class="fw-medium">{{if .System.CreatedAt}}{{.System.CreatedAt.Format
+                                                "Jan 02, 2006 15:04:05"}}{{else}}N/A{{end}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-primary">Last Updated</th>
+                                            <td class="fw-medium">{{if .System.UpdatedAt}}{{.System.UpdatedAt.Format
+                                                "Jan 02, 2006 15:04:05"}}{{else}}N/A{{end}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-sm mb-4 border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-diagram-3"></i> Network Information
+                    </h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-primary">Interface</th>
+                                    <th class="text-primary">IP Addresses</th>
+                                    <th class="text-primary">MAC Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range .System.NetworkInterfaces}}
+                                <tr>
+                                    <td class="fw-medium">{{.Name}}</td>
+                                    <td>
+                                        {{range .IpAddresses}}
+                                        <span class="badge bg-light text-dark me-1 mb-1 p-2">{{.}}</span>
+                                        {{end}}
+                                    </td>
+                                    <td class="fw-medium">{{.MacAddress}}</td>
+                                </tr>
+                                {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

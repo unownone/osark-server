@@ -12,6 +12,7 @@ type Handler interface {
 	NewServer() (*fiber.App, error)
 	ListenAndServe(*fiber.App) error
 	CaptureEvents(*fiber.Ctx) error
+	GetConfig() *config.Config
 }
 
 type handler struct {
@@ -29,4 +30,9 @@ func NewHandler(config *config.Config, db *gorm.DB) Handler {
 	eventService := service.NewEventService(sysRepository, appRepository, processRepository)
 	data := service.NewData(sysRepository, appRepository, processRepository)
 	return &handler{config: config, db: db, eventService: eventService, data: data}
+}
+
+// GetConfig returns the config
+func (h *handler) GetConfig() *config.Config {
+	return h.config
 }

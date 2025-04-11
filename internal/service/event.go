@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"fmt"
+	"log/slog"
 
 	"github.com/unownone/osark-server/internal/models"
 	"github.com/unownone/osark-server/internal/repository"
@@ -51,10 +51,13 @@ func (s *eventService) Handle(ctx context.Context, events []*models.LogEvent, id
 			}
 		}
 	}
-	fmt.Println("errors", len(errors), "\t\terrors", errors)
-	fmt.Println("sysInfo", len(sysInfo))
-	fmt.Println("appInfo", len(appInfo))
-	fmt.Println("processInfo", len(processInfo))
+	slog.Debug("Event processing statistics", 
+		"errors_count", len(errors),
+		"errors", errors,
+		"systems_count", len(sysInfo),
+		"apps_count", len(appInfo),
+		"processes_count", len(processInfo))
+		
 	if len(sysInfo) > 0 {
 		if err := s.sysRepository.Create(ctx, sysInfo...); err != nil {
 			return err

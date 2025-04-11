@@ -1,0 +1,113 @@
+{{define "system_apps"}}
+<div class="container-fluid py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col-lg-8 col-md-7">
+            <h1 class="fw-bold text-primary">System Apps</h1>
+            <p class="lead text-secondary mb-0">Applications installed on System: {{.System.ID}}</p>
+        </div>
+        <div class="col-lg-4 col-md-5 mt-3 mt-md-0 text-md-end">
+            <a href="/" class="btn btn-outline-secondary me-2">
+                <i class="bi bi-arrow-left"></i> Back to Systems
+            </a>
+            <a href="/systems/{{.System.ID}}" class="btn btn-primary">
+                <i class="bi bi-info-circle"></i> System Details
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-grid"></i> Installed Applications
+                    </h5>
+                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill">Total: {{len .Apps}}</span>
+                </div>
+                <div class="card-body bg-light p-0">
+                    {{if .Apps}}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-primary">Name</th>
+                                    <th class="text-primary">Bundle ID</th>
+                                    <th class="text-primary">Version</th>
+                                    <th class="text-primary">Bundle Name</th>
+                                    <th class="text-primary">Path</th>
+                                    <th class="text-primary">Last Opened</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range .Apps}}
+                                <tr>
+                                    <td class="fw-medium">{{.Name}}</td>
+                                    <td>{{.BundleID}}</td>
+                                    <td>{{.BundleVersion}}</td>
+                                    <td>{{.BundleName}}</td>
+                                    <td class="text-truncate" style="max-width: 200px;" title="{{.Path}}">
+                                        <span class="small">{{.Path}}</span>
+                                    </td>
+                                    <td>{{if .LastOpenedTime}}
+                                        <span class="badge bg-light text-dark p-2">
+                                            {{.LastOpenedTime.Format "Jan 02,2006"}}</span>
+                                        {{else}}
+                                        <span class="badge bg-secondary p-2">Never</span>
+                                        {{end}}
+                                    </td>
+                                </tr>
+                                {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="p-4">
+                        <nav aria-label="Pagination">
+                            <ul class="pagination justify-content-center mb-0">
+                                {{if gt .Offset 0}}
+                                <li class="page-item">
+                                    <a class="page-link rounded-pill px-3 me-2 shadow-sm"
+                                        href="/systems/{{.System.ID}}/apps?offset={{sub .Offset .Limit}}&limit={{.Limit}}">
+                                        <i class="bi bi-chevron-left"></i> Previous
+                                    </a>
+                                </li>
+                                {{else}}
+                                <li class="page-item disabled">
+                                    <span class="page-link rounded-pill px-3 me-2">
+                                        <i class="bi bi-chevron-left"></i> Previous
+                                    </span>
+                                </li>
+                                {{end}}
+
+                                {{if eq (len .Apps) .Limit}}
+                                <li class="page-item">
+                                    <a class="page-link rounded-pill px-3 shadow-sm"
+                                        href="/systems/{{.System.ID}}/apps?offset={{add .Offset .Limit}}&limit={{.Limit}}">
+                                        Next <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                                {{else}}
+                                <li class="page-item disabled">
+                                    <span class="page-link rounded-pill px-3">
+                                        Next <i class="bi bi-chevron-right"></i>
+                                    </span>
+                                </li>
+                                {{end}}
+                            </ul>
+                        </nav>
+                    </div>
+                    {{else}}
+                    <div class="p-4 text-center">
+                        <div class="py-5">
+                            <i class="bi bi-exclamation-circle text-info" style="font-size: 3rem;"></i>
+                            <h4 class="mt-3 fw-bold">No applications found!</h4>
+                            <p class="text-secondary">There are no applications recorded for this system yet.</p>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
