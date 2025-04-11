@@ -30,3 +30,4 @@ type LogEvent struct {
 	CreatedAt  time.Time      `json:"created_at"`            // CreatedAt is the time the event was created
 	Processes  []*ProcessInfo `json:"processes,omitempty"`   // Processes is the information about the processes
 }
+

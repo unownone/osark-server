@@ -24,6 +24,7 @@ type handler struct {
 func NewHandler(config *config.Config, db *gorm.DB) Handler {
 	sysRepository := repository.NewSysInfoRepository(db, 100)
 	appRepository := repository.NewAppRepository(db, 100)
-	eventService := service.NewEventService(sysRepository, appRepository)
+	processRepository := repository.NewProcessRepository(db, 100)
+	eventService := service.NewEventService(sysRepository, appRepository, processRepository)
 	return &handler{config: config, db: db, eventService: eventService}
 }

@@ -12,7 +12,7 @@ type SystemInfo struct {
 	CreatedAt      *time.Time     `gorm:"index, autoCreateTime" json:"created_at,omitempty"`
 	UpdatedAt      *time.Time     `gorm:"autoUpdateTime" json:"updated_at,omitempty"`
 	DeletedAt      gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
-	UptimeSeconds  *time.Duration `json:"uptime_seconds" gorm:"uptime_seconds"`   // Uptime seconds of the system
+	UptimeSeconds  *int64         `json:"uptime_seconds" gorm:"uptime_ns"`        // Uptime seconds of the system
 	OSQueryVersion string         `json:"osquery_version" gorm:"osquery_version"` // Version of osquery
 	OSName         string         `json:"os_name" gorm:"os_name"`                 // Name of the operating system
 	OSVersion      string         `json:"os_version" gorm:"os_version"`           // Version of the operating system

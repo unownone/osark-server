@@ -35,5 +35,6 @@ type ProcessInfo struct {
 	BundleVersion string         `json:"bundle_version,omitempty" gorm:"bundle_version"`
 	Path          string         `json:"path,omitempty" gorm:"path"`
 	AppInfoID     string         `json:"app_info_id,omitempty" gorm:"column:app_info_id"`
-	AppInfo       *AppInfo       `gorm:"foreignKey:AppInfoID;references:ID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"app_info,omitempty"`
+	SysInfoID     string         `json:"sys_info_id,omitempty" gorm:"column:sys_info_id"`
+	SysInfo       *SystemInfo    `json:"sys_info,omitempty" gorm:"foreignKey:SysInfoID;references:ID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

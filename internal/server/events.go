@@ -21,8 +21,14 @@ func (h *handler) CaptureEvents(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
+
+	identifier := c.Get("X-Identifier")
+	if identifier == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "X-Identifier header is required"})
+	}
+
 	go func() {
-		if err := h.eventService.Handle(c.Context(), events); err != nil {
+		if err := h.eventService.Handle(c.Context(), events, identifier); err != nil {
 			fmt.Println("Error capturing events:", err)
 		}
 	}()
