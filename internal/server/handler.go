@@ -15,9 +15,10 @@ type Handler interface {
 }
 
 type handler struct {
-	config            *config.Config
-	db                *gorm.DB
-	eventService      service.Event
+	config       *config.Config
+	db           *gorm.DB
+	eventService service.Event
+	data         service.Data
 }
 
 // NewHandler creates a new handler
@@ -26,5 +27,6 @@ func NewHandler(config *config.Config, db *gorm.DB) Handler {
 	appRepository := repository.NewAppRepository(db, 100)
 	processRepository := repository.NewProcessRepository(db, 100)
 	eventService := service.NewEventService(sysRepository, appRepository, processRepository)
-	return &handler{config: config, db: db, eventService: eventService}
+	data := service.NewData(sysRepository, appRepository, processRepository)
+	return &handler{config: config, db: db, eventService: eventService, data: data}
 }

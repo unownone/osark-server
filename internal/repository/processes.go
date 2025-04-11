@@ -13,7 +13,7 @@ type ProcessRepository interface {
 }
 
 type processRepository struct {
-	db *gorm.DB
+	db        *gorm.DB
 	batchSize int
 }
 
@@ -25,7 +25,7 @@ func (r *processRepository) Create(ctx context.Context, processes ...*models.Pro
 	return r.db.Clauses(clause.OnConflict{
 		UpdateAll: true,
 		DoNothing: false,
-		Columns: []clause.Column{},
+		Columns:   []clause.Column{},
 		DoUpdates: clause.Assignments(map[string]interface{}{
 			"created_at": gorm.Expr("processes.created_at"),
 		}),

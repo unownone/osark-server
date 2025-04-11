@@ -21,7 +21,6 @@ func (h *handler) CaptureEvents(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-
 	identifier := c.Get("X-Identifier")
 	if identifier == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "X-Identifier header is required"})
@@ -35,4 +34,3 @@ func (h *handler) CaptureEvents(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "Events captured successfully"})
 }
-

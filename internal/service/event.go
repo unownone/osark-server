@@ -13,14 +13,14 @@ type Event interface {
 }
 
 type eventService struct {
-	sysRepository repository.SysInfoRepository
-	appRepository repository.AppRepository
+	sysRepository     repository.SysInfoRepository
+	appRepository     repository.AppRepository
 	processRepository repository.ProcessRepository
 }
 
 // NewEventService creates a new event service
 func NewEventService(sysRepository repository.SysInfoRepository, appRepository repository.AppRepository, processRepository repository.ProcessRepository) Event {
-	return &eventService{sysRepository: sysRepository, appRepository: appRepository, processRepository: processRepository	}
+	return &eventService{sysRepository: sysRepository, appRepository: appRepository, processRepository: processRepository}
 }
 
 // Handle handles an event
@@ -51,7 +51,7 @@ func (s *eventService) Handle(ctx context.Context, events []*models.LogEvent, id
 			}
 		}
 	}
-	fmt.Println("errors", len(errors), "\t\terrors", errors,)
+	fmt.Println("errors", len(errors), "\t\terrors", errors)
 	fmt.Println("sysInfo", len(sysInfo))
 	fmt.Println("appInfo", len(appInfo))
 	fmt.Println("processInfo", len(processInfo))

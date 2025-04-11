@@ -8,6 +8,14 @@ func (h *handler) setRoutes(route *fiber.App) {
 	api := route.Group("/api")
 	api.Get("/ping", ping) // health check/ ping route
 	api.Post("/events", h.CaptureEvents)
+
+	api.Get("/systems", h.GetSystems)
+	api.Get("/systems/:id", h.GetSystem)
+
+	api.Get("systems/:id/apps", h.GetAppsForASystem)
+
+	frontendRouter := route.Group("/")
+	h.frontend(&frontendRouter)
 }
 
 // @Summary Ping the server
@@ -18,4 +26,8 @@ func (h *handler) setRoutes(route *fiber.App) {
 // @Router /ping [get]
 func ping(c *fiber.Ctx) error {
 	return c.SendString("pong")
+}
+
+func (h *handler) frontend(route *fiber.Router) {
+
 }

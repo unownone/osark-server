@@ -11,6 +11,7 @@ import (
 type AppRepository interface {
 	Create(ctx context.Context, apps ...*models.AppInfo) error
 	CreateOrUpdate(ctx context.Context, apps ...*models.AppInfo) error
+	GetPaginatedAppsForASystem(ctx context.Context, systemID string, limit int, offset int) ([]*models.AppInfo, error)
 }
 
 type appRepository struct {
@@ -37,4 +38,12 @@ func (r *appRepository) CreateOrUpdate(ctx context.Context, apps ...*models.AppI
 			"created_at": gorm.Expr("app_infos.created_at"),
 		}),
 	}).CreateInBatches(apps, r.batchSize).Error
+}
+
+func (r *appRepository) GetPaginatedAppsForASystem(ctx context.Context, systemID string, limit int, offset int) ([]*models.AppInfo, error) {
+	var apps []*models.AppInfo
+	if err := r.db.Limit(limit).Offset(offset).Where("sys_info_id = ?", systemID).Find(&apps).Error; err != nil {
+		return nil, err
+	}
+	return apps, nil
 }
