@@ -1,10 +1,14 @@
 package config
 
-import "github.com/caarlos0/env/v11"
+import (
+	"fmt"
+
+	"github.com/caarlos0/env/v11"
+)
 
 type Config struct {
-	DBConfig *DBConfig
-	PORT     string `env:"PORT"`
+	dbConfig *DBConfig
+	port     string `env:"PORT"`
 }
 
 type DBConfig struct {
@@ -14,6 +18,11 @@ type DBConfig struct {
 	DB_PASSWORD string `env:"DB_PASSWORD"`
 	DB_NAME     string `env:"DB_NAME"`
 	DB_TYPE     string `env:"DB_TYPE" envDefault:"postgres"`
+}
+
+// GetDSN returns the DSN for the database
+func (c *DBConfig) GetDSN() string {
+	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.DB_HOST, c.DB_PORT, c.DB_USER, c.DB_PASSWORD, c.DB_NAME)
 }
 
 // NewConfig creates a new Config
@@ -28,16 +37,16 @@ func NewConfig() (*Config, error) {
 		return nil, err
 	}
 
-	cfg.DBConfig = &dbcfg
+	cfg.dbConfig = &dbcfg
 	return &cfg, nil
 }
 
 // GetDBConfig returns the DBConfig
 func (c *Config) GetDBConfig() *DBConfig {
-	return c.DBConfig
+	return c.dbConfig
 }
 
 // GetPort returns the PORT
 func (c *Config) GetPort() string {
-	return c.PORT
+	return c.port
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/unownone/osark-server/internal/config"
 	"github.com/unownone/osark-server/internal/server"
 )
@@ -16,12 +17,21 @@ import (
 // @host localhost:3000
 // @BasePath /
 func main() {
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("Failed to load .env file: %w", err)
+		os.Exit(1)
+	}
 	cfg, err := config.NewConfig()
 	if err != nil {
 		fmt.Println("Failed to create config: %w", err)
 		os.Exit(1)
 	}
-	handler := server.NewHandler(cfg)
+	db, err := initDB(cfg.GetDBConfig())
+	if err != nil {
+		fmt.Println("Failed to initialize database: %w", err)
+		os.Exit(1)
+	}
+	handler := server.NewHandler(cfg, db)
 
 	if err := runServer(&handler); err != nil {
 		fmt.Println("Failed to run server: %w", err)

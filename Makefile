@@ -6,3 +6,10 @@ build:
 
 generate-docs:
 	swag init -g cmd/api/main.go --parseDependency --ot json,yaml
+
+format:
+	go fmt ./...
+
+lint:
+	golangci-lint run ./...
+

@@ -2,11 +2,12 @@ package server
 
 import "github.com/gofiber/fiber/v2"
 
-func setRoutes(route *fiber.App) {
+func (h *handler) setRoutes(route *fiber.App) {
 	route.Get("/ping", ping)
 
 	api := route.Group("/api")
-	api.Get("/ping", ping)  // health check/ ping route
+	api.Get("/ping", ping) // health check/ ping route
+	api.Post("/events", h.CaptureEvents)
 }
 
 // @Summary Ping the server

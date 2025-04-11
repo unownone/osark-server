@@ -9,7 +9,7 @@ import (
 func (h *handler) NewServer() (*fiber.App, error) {
 	app := fiber.New()
 	app.Use(requestid.New())
-	setRoutes(app) // set routes
+	h.setRoutes(app) // set routes
 	return app, nil
 }
 
