@@ -1,12 +1,218 @@
 {{define "system_apps"}}
-<div class="container-fluid py-4">
-    <div class="row mb-4 align-items-center">
-        <div class="col-lg-8 col-md-7">
-            <h1 class="fw-bold text-primary">System Apps</h1>
-            <p class="lead text-secondary mb-0">Applications installed on System: {{.System.ID}}</p>
+<style>
+    /* Main Layout */
+    .container {
+        padding: 2rem 1rem;
+        width: 100%;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+    .col-full {
+        width: 100%;
+    }
+
+    .col-main {
+        flex: 0 0 auto;
+        width: 66.666667%;
+    }
+
+    .col-side {
+        flex: 0 0 auto;
+        width: 33.333333%;
+        text-align: right;
+    }
+
+    /* Typography */
+    .page-title {
+        font-weight: 700;
+        color: #0d6efd;
+        margin-top: 0;
+    }
+
+    .page-subtitle {
+        color: #6c757d;
+        font-size: 1.25rem;
+        margin-bottom: 0;
+    }
+
+    /* Buttons */
+    .btn {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        text-decoration: none;
+        cursor: pointer;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .btn-outline {
+        color: #6c757d;
+        border: 1px solid #6c757d;
+        background-color: transparent;
+        margin-right: 0.5rem;
+    }
+
+    .btn-outline:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: 1px solid #0d6efd;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+    }
+
+    /* Card */
+    .card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+        border: none;
+    }
+
+    .card-header {
+        background-color: #0d6efd;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-title {
+        margin-bottom: 0;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    .card-body {
+        background-color: #f8f9fa;
+        padding: 0;
+    }
+
+    /* Badge */
+    .badge {
+        padding: 0.5rem 1rem;
+        border-radius: 50rem;
+        font-size: 0.875rem;
+    }
+
+    .badge-light {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .badge-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    /* Table */
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 0;
+        border-collapse: collapse;
+    }
+
+    .table th {
+        color: #0d6efd;
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 0.75rem;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table tr:hover {
+        background-color: rgba(0, 0, 0, .075);
+    }
+
+    .truncate {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .small-text {
+        font-size: 0.875rem;
+    }
+
+    /* Pagination */
+    .pagination-container {
+        padding: 1.5rem;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+
+    .page-item {
+        margin: 0 0.25rem;
+    }
+
+    .page-link {
+        display: block;
+        padding: 0.5rem 1rem;
+        border-radius: 50rem;
+        text-decoration: none;
+        color: #0d6efd;
+        background-color: white;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    }
+
+    .page-link:hover {
+        background-color: #e9ecef;
+    }
+
+    .page-item.disabled .page-link {
+        pointer-events: none;
+        color: #6c757d;
+        background-color: #e9ecef;
+    }
+
+    /* Empty state */
+    .empty-state {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        color: #0dcaf0;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-main">
+            <h1 class="page-title">System Apps</h1>
+            <p class="page-subtitle">Applications installed on System: {{.System.ID}}</p>
         </div>
-        <div class="col-lg-4 col-md-5 mt-3 mt-md-0 text-md-end">
-            <a href="/" class="btn btn-outline-secondary me-2">
+        <div class="col-side">
+            <a href="/" class="btn btn-outline">
                 <i class="bi bi-arrow-left"></i> Back to Systems
             </a>
             <a href="/systems/{{.System.ID}}" class="btn btn-primary">
@@ -16,43 +222,43 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
-                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold">
+        <div class="col-full">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">
                         <i class="bi bi-grid"></i> Installed Applications
                     </h5>
-                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill">Total: {{len .Apps}}</span>
+                    <span class="badge badge-light">Total: {{len .Apps}}</span>
                 </div>
-                <div class="card-body bg-light p-0">
+                <div class="card-body">
                     {{if .Apps}}
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <th class="text-primary">Name</th>
-                                    <th class="text-primary">Bundle ID</th>
-                                    <th class="text-primary">Version</th>
-                                    <th class="text-primary">Bundle Name</th>
-                                    <th class="text-primary">Path</th>
-                                    <th class="text-primary">Last Opened</th>
+                                    <th>Name</th>
+                                    <th>Bundle ID</th>
+                                    <th>Version</th>
+                                    <th>Bundle Name</th>
+                                    <th>Path</th>
+                                    <th>Last Opened</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{range .Apps}}
                                 <tr>
-                                    <td class="fw-medium">{{.Name}}</td>
+                                    <td style="font-weight: 500;">{{.Name}}</td>
                                     <td>{{.BundleID}}</td>
                                     <td>{{.BundleVersion}}</td>
                                     <td>{{.BundleName}}</td>
-                                    <td class="text-truncate" style="max-width: 200px;" title="{{.Path}}">
-                                        <span class="small">{{.Path}}</span>
+                                    <td class="truncate" title="{{.Path}}">
+                                        <span class="small-text">{{.Path}}</span>
                                     </td>
                                     <td>{{if .LastOpenedTime}}
-                                        <span class="badge bg-light text-dark p-2">
+                                        <span class="badge badge-light">
                                             {{.LastOpenedTime.Format "Jan 02,2006"}}</span>
                                         {{else}}
-                                        <span class="badge bg-secondary p-2">Never</span>
+                                        <span class="badge badge-secondary">Never</span>
                                         {{end}}
                                     </td>
                                 </tr>
@@ -61,19 +267,19 @@
                         </table>
                     </div>
 
-                    <div class="p-4">
-                        <nav aria-label="Pagination">
-                            <ul class="pagination justify-content-center mb-0">
+                    <div class="pagination-container">
+                        <nav>
+                            <ul class="pagination">
                                 {{if gt .Offset 0}}
                                 <li class="page-item">
-                                    <a class="page-link rounded-pill px-3 me-2 shadow-sm"
+                                    <a class="page-link"
                                         href="/systems/{{.System.ID}}/apps?offset={{sub .Offset .Limit}}&limit={{.Limit}}">
                                         <i class="bi bi-chevron-left"></i> Previous
                                     </a>
                                 </li>
                                 {{else}}
                                 <li class="page-item disabled">
-                                    <span class="page-link rounded-pill px-3 me-2">
+                                    <span class="page-link">
                                         <i class="bi bi-chevron-left"></i> Previous
                                     </span>
                                 </li>
@@ -81,14 +287,14 @@
 
                                 {{if eq (len .Apps) .Limit}}
                                 <li class="page-item">
-                                    <a class="page-link rounded-pill px-3 shadow-sm"
+                                    <a class="page-link"
                                         href="/systems/{{.System.ID}}/apps?offset={{add .Offset .Limit}}&limit={{.Limit}}">
                                         Next <i class="bi bi-chevron-right"></i>
                                     </a>
                                 </li>
                                 {{else}}
                                 <li class="page-item disabled">
-                                    <span class="page-link rounded-pill px-3">
+                                    <span class="page-link">
                                         Next <i class="bi bi-chevron-right"></i>
                                     </span>
                                 </li>
@@ -97,11 +303,11 @@
                         </nav>
                     </div>
                     {{else}}
-                    <div class="p-4 text-center">
-                        <div class="py-5">
-                            <i class="bi bi-exclamation-circle text-info" style="font-size: 3rem;"></i>
-                            <h4 class="mt-3 fw-bold">No applications found!</h4>
-                            <p class="text-secondary">There are no applications recorded for this system yet.</p>
+                    <div class="empty-state">
+                        <div style="padding: 3rem 0;">
+                            <i class="bi bi-exclamation-circle empty-icon"></i>
+                            <h4 style="margin-top: 1rem; font-weight: 700;">No applications found!</h4>
+                            <p style="color: #6c757d;">There are no applications recorded for this system yet.</p>
                         </div>
                     </div>
                     {{end}}

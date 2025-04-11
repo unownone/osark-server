@@ -13,5 +13,15 @@ go mod tidy
 ## Usage
 
 ```bash
-go run cmd/api/main.go
+docker compose up --build -d
 ```
+
+To stop the server, run:
+
+```bash
+docker compose down
+```
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
